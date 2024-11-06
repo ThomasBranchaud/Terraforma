@@ -1,12 +1,3 @@
-fileFormatVersion: 2
-guid: 0489584346dfa84458888f5cf8d856db
-MonoImporter:
-  externalObjects: {}
-  serializedVersion: 2
-  defaultReferences:
-  - tileFireGrass: {fileID: 5296307935300308040, guid: 74736fe0684ee464f96b181620a6b05b, type: 3}
-  executionOrder: 0
-  icon: {instanceID: 0}
-  userData: 
-  assetBundleName: 
-  assetBundleVariant: 
+version https://git-lfs.github.com/spec/v1
+oid sha256:800380938ae29db546febe63fb201b5d33839c03d1ab4095c4dd3f6c637cf2de
+size 338
