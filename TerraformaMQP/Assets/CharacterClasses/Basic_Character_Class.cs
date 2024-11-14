@@ -11,138 +11,137 @@ using UnityEngine.UI;
 public class Basic_Character_Class : MonoBehaviour
 {
     [SerializeField]
-    public bool turnEnded = false; //Whether the unit's turn has been ended, true if so, false if not
+    public bool turnEnded = false;
     public List<StatusEffect> effects; //Related Functions - addStatus, removeStatus
-    public StatusEffect tileEffect; //Current tileEffect acting upon the character ---SHOULD (ALMOST) ALWAYS BE SET TO THE TILE UNDER THE CHARACTER---
+    public StatusEffect tileEffect;
 
 
-    public string name; //The name of the character
-    public Sprite char_img; //Image that is displayed in the UI when character is selected
-    public int health;  //Current health value of the character - Related Functions - takePhysicalDamage, takeMagicDamage, increaseHealth, decreaseHealth, checkHealth
-    public stat maxHealth;  //The maximum health value that a character can have - Related Functions - increaseMaxHealth, decreaseMaxHealth
-    public stat attack;  //The amount of attack that a character deals - Related Functions - increaseAttack, decreaseAttack
-    public stat movementSpeed;  //The distance a character can move in a single turn - Related Functions - increaseMoveSpeed, decreaseMoveSpeed
-    public stat resistence;  //How much the character can resist the damage from magical attacks - Related Functions - increaseResistence, decreaseResistence
-    public stat defense;  //How much the character can resiste the damage from physical attacks - Related Functions - increaseDefense, decreaseDefense
-    public stat speed;  //The chance that a character has to dodge attacks - Related Functions - increaseSpeed, decreaseSpeed
-    public stat criticalChance;  //The chance a character has to deal critical damage on an attack - Related Functions - increaseCritChance, decreaseCritChance, deriveCritChance
-    public stat accuracy;  //The chance a character has to land an attack - Related Functions - increaseAccuracy, decreaseAccuracy
-    public stat actionsLeft;  //The amount of actions that the character can still perform on their turn - Related Functions - useAction, resetActions
-    public stat totalActions; //The total amount of actions a character can perform on their turn
-    public int attackReach = 1; //The reach the character can hit with the currently being targeted spell or attack
-    public int defaultReach = 1; //The default reach the character can hit with an attack
-    public string attackType = null; //What is being targeting, either a "Spell" or "Attack", if not currently targeting will be null
+    public string name;
+    public Sprite char_img;
+    public int health;  //Related Functions - takePhysicalDamage, takeMagicDamage, increaseHealth, decreaseHealth, checkHealth
+    public stat maxHealth;  //Related Functions - increaseMaxHealth, decreaseMaxHealth
+    public stat attack;  //Related Functions - increaseAttack, decreaseAttack
+    public stat movementSpeed;  //Related Functions - increaseMoveSpeed, decreaseMoveSpeed
+    public stat resistence;  //Related Functions - increaseResistence, decreaseResistence
+    public stat defense;  //Related Functions - increaseDefense, decreaseDefense
+    public stat speed;  //Related Functions - increaseSpeed, decreaseSpeed
+    public stat criticalChance;  //Related Functions - increaseCritChance, decreaseCritChance, deriveCritChance
+    public stat accuracy;  //Related Functions - increaseAccuracy, decreaseAccuracy
+    public stat actionsLeft;  //Related Functions - useAction, resetActions
+    public stat totalActions;
+    public int attackReach = 1;
+    public int defaultReach = 1;
+    public string attackType = null;
 
-    public Color color; //Color of the shape ---WILL BE DELETED WHEN MODELS ARE ADDED---
+    public StatusEffect testEffect;  //FOR TESTING PURPOSES ----- REQUIRED TO TEST APPLYING AND REMOVING A STATUS EFFECT INSIDE THIS CLASS
+    public Color color;
 
-    public int tileX = 0; //The X value of the tile the character is on
-    public int tileY = 0; //The Y value of the tile the character is on
-    public TileType tileType; //The type of tile the character is on
-    public ClickableTile tile; //Reference to the instance of the tile the character is on
-    public TileMap map; //Reference to the map
+    public int tileX = 0;
+    public int tileY = 0;
+    public TileType tileType;
+    public ClickableTile tile;
+    public TileMap map;
 
     public bool targeting = false;
-    public bool isMoving = false;
 
-    public bool charSelected = false; //If the character is currently selected, true if selected, false if not
-    public bool charHover = false; //If the character is currently being hovered over by the mouse, true if being hovered over, false if not
+    public bool charSelected = false;
+    public bool charHover = false;
 
-    public List<Node> path = null; //The current path the character is travelling? ---NOT SURE WHY THIS IS HERE, NOT BEING USED AT ALL INSIDE THIS SCRIPT---
+    public List<Node> path = null;
 
-    public Camera camera; //Reference to the camera ---ALSO NOT SURE WHY THIS IS HERE, NOT BEING USED AT ALL INSIDE THIS SCRIPT---
-    public SpriteRenderer renderer; //Reference to the renderer that is attached to the GameObject
-    //TODO NOTE FROM ANDREW: CHANGED RENDERER TO SPRITERENDERER
+    public Camera camera;
+    public Renderer renderer;
 
     public Nameplate nameplate;
     public GameObject np2;
-
-    public GameObject atkMenu;
-    public GameObject spellList;
     
-    public bool hasWalked = false;
-    public bool spellListIsUp = false;
-
+    
 
 
 
 
 
     // Start is called before the first frame update
-    //IEnumerator is used to ensure that the start function for all characters is run after the creation of the tile map
     IEnumerator Start()
     {
-        //Wait for the map to be created
         while(map.mapCreated != true){
             yield return null;
         }
-        //UnityEngine.Debug.Log("Character Created");
-        //Retrieve the unit's base color
+        UnityEngine.Debug.Log("Character Created");
         color = renderer.material.color;
-        //After map is created, set the characters to be located on their designated tiles on the map
         map.clickableTiles[tileX, tileY].characterOnTile = this.gameObject;
         tile = map.clickableTiles[tileX, tileY];    
-        //Make sure the correct tileEffect is applied to the character
         map.addTileEffect(tileX, tileY, this.gameObject);
-        //Set the tile to be unwalkable because there is a unit occupying it
         map.clickableTiles[tileX, tileY].isWalkable = false;
         //nameplate = transfrom.root.GetComponent<Nameplate>();
+
         
     }
 
+    // Update is called once per frame
     void Update()
     {
-
-        if (charSelected == true && turnEnded == false & map.moving == false & map.moveButtonPressed == false && targeting == false)
+        //FOR TESTING PURPOSES ----- ALLOWS THE CHARACTER TO TAKE PHYSICAL DAMAGE WHEN P IS PRESSED AND MAGIC DAMAGE WHEN M IS PRESSED
+        /*
+        if (Input.GetKeyDown(KeyCode.P)) {
+            this.takePhysicalDamage(1);
+        }
+        if (Input.GetKeyDown(KeyCode.M))
         {
-            displayAttackMenu(true);
+            this.takeMagicDamage(1, "Fire");
+        }
+        */
+        
+
+        //FOR TESTING PURPOSES ----- APPLIES A BUFF TO THE CHARACTER WITH THE B KEY AND THEN REMOVES IT WITH THE N KEY ---- REQUIRES THE TESTEFFECT VARIABLE
+        /*
+        if (Input.GetKeyDown(KeyCode.B))
+        {
+            StatusEffect newEffect = new StatusEffect();
+            List<string> stats = new List<string>();
+            stats.Add("attack");
+            List<int> amounts = new List<int>();
+            amounts.Add(-10);
+            newEffect.initializeStatusEffect(10, stats, "Cripple", amounts, this.gameObject);
+            testEffect = newEffect;
+        }
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            removeStatus(testEffect, false);
+            testEffect = null;
+        }
+        */
+
+        if (charSelected == true && turnEnded == false & map.moving == false)
+        {
             if (Input.GetKeyDown(KeyCode.N))
             {
-                //Start targeting an attack
                 attackType = "Attack";
                 beginTargeting(attackReach);
             }
-            //Check if the player is pressing the M key, not currently targeting an attack, and is a hero character
-            else if (Input.GetKeyDown(KeyCode.M) && targeting == false && gameObject.GetComponent<Hero_Character_Class>() != null)
+            else if (Input.GetKeyDown(KeyCode.M) && targeting == false)
             {
-                //Open the menu to allow the character to select a spell to cast by calling the openSpellBook function within the Hero Class ---CAN ONLY BE EXECUTED BY HERO CLASS CHARACTERS---
-                gameObject.GetComponent<Hero_Character_Class>().openSpellBook();
+                if (gameObject.GetComponent<Hero_Character_Class>())
+                {
+                    gameObject.GetComponent<Hero_Character_Class>().openSpellBook();
+                }
             }
-            //Check if the player is pressing the B key
             else if (Input.GetKeyDown(KeyCode.B)){
-                //End the unit's turn
                 endTurn();
                 map.hidePath();
             }
-            updateCharStats();
-        }
-
-        if(map.moving == true) {
-            displayAttackMenu(false);
-            displaySpellList(false);
-        }
-
-        if(this.gameObject.tag == "EnemyTeam") {
-            //updateCharStats();
         }
 
 
-        if(spellListIsUp == false && charSelected == true && this.gameObject.GetComponent<Hero_Character_Class>() == true) {
 
-            //UnityEngine.Debug.Log("PLEASE HELP ME");
-
-            GameObject t = GameObject.Find("SpellDescCanvas(Clone)");
-            Destroy(t);
-        }
-        
     }
 
     //Deals Physical Damage to the character and checks if it reduces the health total below 0. Reduces the Damage value by the amount of Defense the character has
     //Input - Amount of Physical Damage Taken
 
     public void takePhysicalDamage(int damage){
-        float mitigatedDamage = Mathf.Round((float)damage * (20f/(20f + (float)defense.moddedValue)));
-        health = health - (int)mitigatedDamage;
-        //UnityEngine.Debug.Log("Took " +  mitigatedDamage + " physical damage");
+        health = health - (damage - defense.moddedValue);
+        UnityEngine.Debug.Log("Took " +  (damage - defense.moddedValue) + " physical damage");
         checkHealth();
         return;
     }
@@ -151,9 +150,8 @@ public class Basic_Character_Class : MonoBehaviour
     //Input - Amount of Magic Damage Taken
 
     public void takeMagicDamage(int damage, string magicType){
-        float mitigatedDamage = Mathf.Round((float)damage * (20f/(20f + (float)resistence.moddedValue)));
-        health = health - (int)mitigatedDamage;
-        //UnityEngine.Debug.Log("Took " + mitigatedDamage + " magic damage");
+        health = health - (damage - resistence.moddedValue);
+        UnityEngine.Debug.Log("Took " + (damage - resistence.moddedValue) + " magic damage");
         checkHealth();
     }
 
@@ -178,10 +176,9 @@ public class Basic_Character_Class : MonoBehaviour
     //Destroys the GameObject
 
     void destroy(){
-        //UnityEngine.Debug.Log("Destroyed");
+        UnityEngine.Debug.Log("Destroyed");
         tile.isWalkable = true;
         tile.characterOnTile = null;
-        displayNameplate(false);
         Destroy(gameObject);
         return;
     }
@@ -190,7 +187,6 @@ public class Basic_Character_Class : MonoBehaviour
 
     void checkHealth() {
         if (health <= 0){
-            map.heroes.Remove(gameObject);
             destroy();
         }
     }
@@ -352,10 +348,8 @@ public class Basic_Character_Class : MonoBehaviour
 
     public void addStatus(StatusEffect effect, bool fromTile)
     {
-        //Iterates over the list of stats that need to be effected
         for (int i = 0; i < effect.statToEffect.Count; i++)
         {
-            //Checks which stat to effect and then applies the change
             switch (effect.statToEffect[i])
             {
                 case "health":
@@ -398,28 +392,17 @@ public class Basic_Character_Class : MonoBehaviour
                     increaseTotalActions(effect.amount[i]);
                     break;
 
-                case "magic":
-                    if (this.gameObject.GetComponent<Hero_Character_Class>()){
-                        this.gameObject.GetComponent<Hero_Character_Class>().increaseMagic(effect.amount[i]);
-                    }
-                    break;
-
             }
         }
-        //Checks if the effect came from a tile or a different source
         if (fromTile == false)
         {
-            //If not from a tile adds the effect to the list of current effects on the unit
             effects.Add(effect);
 
         }
-        //If from a tile then sets the tileEffect to the new effect
         else
         {
-            //Checks if there was already a tileEffect on the character
             if (tileEffect != null)
             {
-                //If so, removes the effect from the character by calling the removeStatus function
                 removeStatus(tileEffect, true);
             }
             tileEffect = effect;
@@ -429,12 +412,11 @@ public class Basic_Character_Class : MonoBehaviour
     //Removes a Status effect from the character
     //Input - Effect to remove, If the effect was from a tile or a normal Buff/Debuff
 
+
     public void removeStatus(StatusEffect effect, bool fromTile)
     {
-        //Iterates over the list of stats to affect
         for (int i = 0; i < effect.statToEffect.Count; ++i)
         {
-            //Checks which stat to effect and then applies the change
             switch (effect.statToEffect[i])
             {
                 case "health":
@@ -476,424 +458,190 @@ public class Basic_Character_Class : MonoBehaviour
                 case "totalActions":
                     decreaseTotalActions(effect.amount[i]);
                     break;
-                
-                case "magic":
-                    if (this.gameObject.GetComponent<Hero_Character_Class>()){
-                        this.gameObject.GetComponent<Hero_Character_Class>().decreaseMagic(effect.amount[i]);
-                    }
-                    break;
 
             }
         }
-        //Checks if the effect came from a tile or another source
         if (fromTile == false)
         {
-            //If from another source, the effect is located within the list of effects on the character and then removed
             effects.Remove(effect);
         }
     }
 
-    //Called when the player tries to use a physical attack on an enemy
-    //Takes in the selected enemy and the amount of damage to deal
-    //Returns true if the character has no actions left after the attack, false if the character still has at least one action
     public bool attackCharacter(GameObject target, int damageAmount)
     {
-        //Calls the takePhysicalDamage function on the target, passing in the damage amount
-        Basic_Character_Class targetCharacter = target.GetComponent<Basic_Character_Class>();
-        ClickableTile targetTile = target.GetComponent<ClickableTile>();
-        if (targetCharacter != null){
-
-            if (checkAccuracy(targetCharacter.speed.moddedValue)) { //Attack Lands
-                if (checkCrit()) {
-                    targetCharacter.takePhysicalDamage(2*damageAmount); //Critical Hit!!!
-                    //UnityEngine.Debug.Log("FAIR AND BALANCED");
-                } else {
-                    targetCharacter.takePhysicalDamage(damageAmount);
-                }
-
-                targetCharacter.updateCharStats();
-            } else { //Attack Misses
-                
-            }
-        } else if (targetTile != null && targetTile.isBreakable) { //Damage Tile
-            targetTile.hp -= damageAmount;
-            UnityEngine.Debug.Log("Tile Health: " + targetTile.hp);
-
-            if (targetTile.hp <= 0) {
-                targetTile.breakTile();
-            }
-
-        }
-        //Stops targeting
+        target.GetComponent<Basic_Character_Class>().takePhysicalDamage(damageAmount);
         stopTargeting();
-        //Uses the action, and then checks if there are still actions remaining
         if (takeAction() == false)
         {
-            //The character still has at least one action
             renderer.material.color = Color.red;
             return false;
         }
-        //The character has no actions left
         return true;
     }
 
-    //Checks whether the enemy will hit or dodge
-    public bool checkAccuracy(float speed) {
-        float acc = accuracy.moddedValue;
-        float cover = 0;
-
-		float scale = 2;
-		float foeScale = 2;
-		
-		//Calculates hit rate; should average around 80 without considering enemy evasion
-		int playerFormula = (int) (UnityEngine.Random.Range(0,100)-acc*scale);
-		int enemyFormula = (int) Math.Round(75-foeScale*(speed+cover));
-		
-		if (playerFormula < enemyFormula) return true;
-        
-        return false;
-    }
-
-    //Checks crit
-    public bool checkCrit() {
-        float crit = criticalChance.moddedValue;
-        int formula = (UnityEngine.Random.Range(0,20));
-
-        if (crit > formula) return true;
-        return false;
-    }
-
-    //Called when player tries to physically attack a piece of terrain at a location, likely a Wold Wall
-    //Takes in the selected target and the type of damage to deal
-    //
-    public bool attackTile(int xPos, int yPos, int damageAmount)
-    {
-        //Calls the takePhysicalDamage function on the target, passing in the damage amount
-        
-
-        //Stops targeting
-        stopTargeting();
-        //Uses the action, and then checks if there are still actions remaining
-        if (takeAction() == false) {
-            //The character still has at least one action
-            renderer.material.color = Color.red;
-            return false;
-        }
-        //The character has no actions left
-        return true;
-    }
-
-    //Called when the player tries to cast a spell
-    //Takes in a list of GameObjects as targets
-    //Returns true if the character has no actions left after the spell, false if the character still has at least one action
     public bool castSpell(List<GameObject> targets)
     {
-        //Calls the castSpell function in the Hero Class, passing the list of targets as the argument
         gameObject.GetComponent<Hero_Character_Class>().castSpell(targets);
-        //Calls the useMana function in the Hero Class to reduce the amount of mana the unit has remaining
-        gameObject.GetComponent<Hero_Character_Class>().useMana(gameObject.GetComponent<Hero_Character_Class>().selectedSpell.manaCost);
-        //Stops targeting
         stopTargeting();
-        //Uses the action, and then checks if there are still actions remaining
         if (takeAction() == false)
         {
-            //The character sill has at least one action
             renderer.material.color = Color.red;
             return false;
         }
-        //The character has no actions left
         return true;
     }
 
-    //Ends the unit's turn
     public void endTurn()
     {
-        //Sets the current remaining actions to 0, changes the color to gray, sets the turnEnded variable to true, and deselects the character
-        deselectCharacter();
         actionsLeft.moddedValue = 0;
         renderer.material.color = Color.gray;
         turnEnded = true;
         charSelected = false;
-        //Turns off attack menu
-        displayAttackMenu(false);
-        displaySpellList(false);
         if (gameObject.GetComponent<Hero_Character_Class>())
         {
             gameObject.GetComponent<Hero_Character_Class>().pickingSpell = false;
         }
     }
 
-    //Stops targeting, removes the highlighted range, resets the attackType, attackReach variables
     public void stopTargeting()
     {
-        //Checks if the player was targeting a spell or normal attack
         if (attackType == "Spell")
         {
-            //If the player was targeting a spell, sets the selectedSpell in the Hero Class to null
             gameObject.GetComponent<Hero_Character_Class>().selectedSpell = null;
         }
-        //Sets attackType to null, clears the highlighted reach, sets the attackReach back to the defaultReach, sets targeting to false, resets the color
         attackType = null;
         removeReach();
         attackReach = defaultReach;
         targeting = false;
         renderer.material.color = Color.red;
-        map.removeAOEDisplay();
+        displayStats();
     }
 
-    //Called when targeting a standard attack
-    //Takes in an integer value of the reach the attack can hit
     public void beginTargeting(int reach)
     {
-        //Sets unit color to yellow
         renderer.material.color = Color.yellow;
-        //UnityEngine.Debug.Log("Targeting an Attack");
-        //Sets targeting to true
+        UnityEngine.Debug.Log("Targeting an Attack");
         targeting = true;
-        //Calls the drawReach function with the reach of the attack, the inability to target tiles, and the inability to target allies
-        drawReach(reach, false, false, true, false, false, true, false, false, null, false, null, tile,true);
+        drawReach(reach, false, false);
     }
 
-    //Called when targeting a Spell
-    //Takes in the reach of the spell and the Spell being targeted
     public void beginTargetingSpell(int reach, Basic_Spell_Class spell)
     {
-        //Sets the attack type to spell
         attackType = "Spell";
-        //Sets the unit color to magenta to designate casting a Spell
         renderer.material.color = Color.magenta;
-        //Sets targeting to true
         targeting = true;
-        //Sets the attackReach to the inputted reach
         attackReach = reach;
-        //Calls the drawReach function with the reach of the spell, the spell's ability to target tiles, and the spell's ability to target allies
-        drawReach(reach, spell.targetTiles, spell.targetAllies, spell.targetEnemies, spell.hitOwnTile, spell.hitSelf, spell.targetWalls, spell.hyperSpecificTargeting, spell.needSpecificTileEffects, spell.specificTileEffects, spell.needSpecificTiles, spell.specificTiles, tile);
+        drawReach(reach, true, false);
     }
 
-    //Called when selecting a unit, displays the current health and, if possible, the mana of the selected unit, along with their char_img
-    //Takes in a Boolean, if true, sets the canvas to active, if false the canvas is set to inactive
-    //---MIGHT WANT TO WRAP MOST FUNCTIONALITY INSIDE IF STATEMENT, DOESN'T NEED TO BE SET WHEN THE CANVAS IS JUST BEING SET TO INACTIVE---
+    public void displayStats()
+    {
+        UnityEngine.Debug.Log("Press A to Attack, M to cast Magic, or W to Wait");
+    }
+
     public void displayNameplate(bool b)
     {
-        //Sets the values of the nameplate
         nameplate.displayName(name);
         nameplate.displayImage(char_img);
         nameplate.displayHealth(health, maxHealth);
-        nameplate.displayAtk(attack);
-        nameplate.displayDef(defense);
-        nameplate.displayRes(resistence);
-        nameplate.displayAcc(accuracy);
-        nameplate.displayCrit(criticalChance);
-        nameplate.displaySpd(speed);
-        //Checks if the character is a Hero and has mana
         if (gameObject.GetComponent<Hero_Character_Class>() != null)
         {
-            //If the character does have mana, it is also passed to the nameplate and the mana bar is set to active
             nameplate.displayMana(gameObject.GetComponent<Hero_Character_Class>().mana, gameObject.GetComponent<Hero_Character_Class>().maxMana);
             nameplate.mana.gameObject.SetActive(true);
-            nameplate.displayMag(gameObject.GetComponent<Hero_Character_Class>().magic);
-            nameplate.displayMagicArea(true);
         }
         else
         {
-            //If the character doesn't have mana, the mana bar is just set to inactive
             nameplate.mana.gameObject.SetActive(false);
-            nameplate.displayMagicArea(false);
         }
-        //Set the canvas to either active or inactive, depending on the inputted bool
         np2.SetActive(b);
-    }
-
-    public void displayAttackMenu(bool b)
-    {
-
-        if(b == false && atkMenu.GetComponent<Billboard>() != null) {
-            atkMenu.GetComponent<Billboard>().uiHover = false;
-        }
-
-
-        atkMenu.SetActive(b);
-
-        if(turnEnded == true && b == true) {
-            atkMenu.SetActive(false);
-            if (spellList != null){
-                spellList.SetActive(false);
-            }
-        }
-    }
-
-    public void displaySpellList(bool b)
-    {
-        if (spellList != null){
-            if(b == true) {
-                spellList.SetActive(b);
-                spellListIsUp = true;
-            }
-            else if (b == false) {
-                spellList.SetActive(b);
-                spellListIsUp = false;
-            }
-        }
-        if(turnEnded == true && b == true) {
-            if (spellList != null){
-                spellList.SetActive(false);
-                spellListIsUp = false;
-            }
-            atkMenu.SetActive(false);
-        }
     }
 
     //Recolors when mouse is hovering over a unit
     public void OnMouseEnter()
     {
-
-        if (this.gameObject.GetComponent<Enemy_Character_Class>() != null && map.movingEnemy == true){
-            displayNameplate(true);
-            renderer.material.color = Color.blue;
-        }
-
-        //Checks if the unit is currently selected
-        if (charSelected == false && (map.selectedUnit == null || this.gameObject.tag != map.selectedUnit.tag))
+        if (charSelected == false)
         {
-            //If not, the color is changed to the highlight color
             renderer.material.color = Color.blue;
-            //if unit is not selected, display a nameplate
-            displayNameplate(true);
         }
-        //UnityEngine.Debug.Log("Mouse Entered");
-        //Set the hover variable to true
+        UnityEngine.Debug.Log("Mouse Entered");
         charHover = true;
-
-        tile.OnMouseEnter();
     }
 
     //Resets when mouse has stopped hovering over a unit
     public void OnMouseExit()
     {
-        //Checks if the unit is currently selected
-        if (charSelected == false && (map.selectedUnit == null || this.gameObject.tag != map.selectedUnit.tag))
+        if (charSelected == false)
         {
-            //Checks if the unit's turn has been ended
             if (turnEnded == false)
             {
-                //If the unit's turn isn't over and isn't selected, reset the color to it's base
                 renderer.material.color = color;
-                //If the character is not selected, and the turn is not over turn off nameplate
-                displayNameplate(false);
             }
             else
             {
-                //Otherwise set the color to gray
                 renderer.material.color = Color.gray;
-                displayNameplate(false);
-
             }
         }
-        if (this.gameObject.GetComponent<Enemy_Character_Class>() != null && map.movingEnemy == true){
-            renderer.material.color = color;
-            displayNameplate(false);
-            //updateCharStats();
-        }
-        //Set the hover variable to false
         charHover = false;
-        //UnityEngine.Debug.Log("Mouse Exited");
-
-        tile.OnMouseExit();
+        UnityEngine.Debug.Log("Mouse Exited");
     }
 
-    //Calls the drawReach function within the map, passing the same variables from the parameters as arguments
-    private void drawReach(int reach, bool targetTiles, bool targetAllies, bool targetEnemies, bool hitOwnTile, bool hitSelf, bool targetWalls, bool hyperSpecificTargeting, bool needSpecificTileEffects, List<string> specificTileEffects, bool needSpecificTiles, List<string> specificTiles, ClickableTile tile, bool targetBreakables = true)
+    private void drawReach(int reach, bool targetTiles, bool targetAllies)
     {
-        map.drawReach(reach, targetTiles, targetAllies, targetEnemies, targetWalls, hyperSpecificTargeting, needSpecificTileEffects, specificTileEffects, needSpecificTiles, specificTiles, tile,targetBreakables);
-        if(!hitOwnTile){
-            if (map.targetList.Contains(tile.gameObject)){
-                map.targetList.Remove(tile.gameObject);
-                tile.endHighlight();
-            }
-        }
-        if (!hitSelf && map.targetList.Contains(this.gameObject)){
-            map.targetList.Remove(this.gameObject);
-            this.tile.endHighlight();
-        }
+        map.drawReach(reach, targetTiles, targetAllies);
     }
 
-    //Calls the removeReach function within the map
+
     public void removeReach()
     {
         map.removeReach();
     }
 
-    //Selects the current character
     public void selectCharacter()
     {
         if (gameObject.tag == "PlayerTeam")
         {
-            //If the unit is part of the player team, allow the player to move it and perform actions
             charSelected = true;
         }
-        //Display the health and mana of the selected unit
-        displayNameplate(true);  
-        //Set the unit's color to red      
+        displayNameplate(true);        
         renderer.material.color = Color.red;
     }
 
-    //Deselects the current character
     public void deselectCharacter()
     {
-        //Sets the charSelected variable to false, removes the arrow path from the map, hides the selection UI
         charSelected = false;
         map.hidePath();
         displayNameplate(false);
-        displayAttackMenu(false);
-        displaySpellList(false);
-        map.setMoveButtonPressed(false);
-        isMoving = false;
         if (turnEnded == false)
         {
-            //If it hasn't ended, reset its color to its base color
             renderer.material.color = color;
         }
         else
         {
-            //If it has ended, change the color to gray
             renderer.material.color = Color.gray;
         }
     }
 
-    //Takes an action, returns true if the character then has no more remaining actions, and false if it still has actions
     public bool takeAction()
     {
-        //Reduce the amount of actions the character has left by 1
         actionsLeft.moddedValue--;
-        //Check if the amount of actions left is below or equal to 0
         if (actionsLeft.moddedValue <= 0)
         {
-            //If so, deselect the character and end it's turn before returning true 
             deselectCharacter();
             endTurn();
             return true;
         }
-        //Else, return false
         return false;
     }
 
-    //Check if a selected GameObject is within the reach of a unit while targeting
-    //Takes in a GameObject as a target
-    //Returns true if the target is within reach, false if not
     public bool withinReach(GameObject selectedTarget)
     {
-        //Call the checkForTarget function in the map, using the selectedTarget parameter and the attackReach variable as the arguments
         if (map.checkForTarget(selectedTarget, attackReach))
         {
-            //UnityEngine.Debug.Log("Target Found");
-            //Return true if the target is found
             return true;
         }
-        //Return false is not found
         return false;
     }
 
-    //Resets the unit to take a new turn
     public void resetTurn()
     {
         turnEnded = false;
@@ -901,70 +649,9 @@ public class Basic_Character_Class : MonoBehaviour
         actionsLeft.moddedValue = actionsLeft.value;
     }
 
-    public void moveButtonUI() {
-    UnityEngine.Debug.Log("Move is Clicked");
-        map.setMoveButtonPressed(true);
-        displayAttackMenu(false);
-        isMoving = true;
-    }
-
-    public void attackButtonUI() {
-        UnityEngine.Debug.Log("Attack is Clicked");
-        attackType = "Attack";
-        displayAttackMenu(false);
-        beginTargeting(attackReach);
-    }
-
-    public void magicButtonUI() {
-        UnityEngine.Debug.Log("Magic is Clicked");
-        displaySpellList(true);
-    }
-
-    public void spellButtonUI(int i) {
-        if(this.gameObject.GetComponent<Hero_Character_Class>().enoughMana(this.gameObject.GetComponent<Hero_Character_Class>().spellList[i].manaCost) == true) {
-            this.gameObject.GetComponent<Hero_Character_Class>().selectedSpell = this.gameObject.GetComponent<Hero_Character_Class>().spellList[i];
-            beginTargetingSpell(this.gameObject.GetComponent<Hero_Character_Class>().spellList[i].range, this.gameObject.GetComponent<Hero_Character_Class>().spellList[i]);
-            displaySpellList(false);
-            displayAttackMenu(false);
-        }
-    }
-
-    public void updateCharStats() {
-        //Sets the values of the nameplate
-        nameplate.displayName(name);
-        nameplate.displayImage(char_img);
-        nameplate.displayHealth(health, maxHealth);
-        nameplate.displayAtk(attack);
-        nameplate.displayDef(defense);
-        nameplate.displayRes(resistence);
-        nameplate.displayAcc(accuracy);
-        nameplate.displayCrit(criticalChance);
-        nameplate.displaySpd(speed);
-                //Checks if the character is a Hero and has mana
-        if (gameObject.GetComponent<Hero_Character_Class>() != null)
-        {
-            //If the character does have mana, it is also passed to the nameplate and the mana bar is set to active
-            nameplate.displayMana(gameObject.GetComponent<Hero_Character_Class>().mana, gameObject.GetComponent<Hero_Character_Class>().maxMana);
-            nameplate.mana.gameObject.SetActive(true);
-            nameplate.displayMag(gameObject.GetComponent<Hero_Character_Class>().magic);
-            nameplate.displayMagicArea(true);
-        }
-        else
-        {
-            //If the character doesn't have mana, the mana bar is just set to inactive
-            nameplate.mana.gameObject.SetActive(false);
-            nameplate.displayMagicArea(false);
-        }
-    }
-
-
 
 }
 
-//Basic stat class
-//Two integers
-// -value --- Base value
-// -moddedValue -- Value that is changed as the unit is buffed and debuffed
 [System.Serializable]
 public class stat
 {
@@ -973,4 +660,3 @@ public class stat
     public int moddedValue;
 
 }
-

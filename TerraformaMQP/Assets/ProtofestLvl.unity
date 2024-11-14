@@ -3757,11 +3757,7 @@ MonoBehaviour:
   startPos: {x: 0, y: 0, z: 0}
   tooFarHorizontal: 10
   tooFarVertical: 10
-  gc: {fileID: 1356950529}
   map: {fileID: 1297737938}
-  target: {x: 0, y: 0, z: 0}
-  targetIndex: -1
-  lUnits: []
 --- !u!1001 &993967173
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5288,7 +5284,6 @@ GameObject:
   - component: {fileID: 1297737937}
   - component: {fileID: 1297737938}
   - component: {fileID: 1297737939}
-  - component: {fileID: 1297737940}
   m_Layer: 0
   m_Name: Map
   m_TagString: Untagged
@@ -5403,16 +5398,10 @@ MonoBehaviour:
     tileVisualPrefab: {fileID: 5296307935300308040, guid: 74736fe0684ee464f96b181620a6b05b, type: 3}
     isWalkable: 0
     cost: 1
-  - name: Wold Wall
-    tileVisualPrefab: {fileID: 4609658174146669432, guid: a9ab7a73a56972e47b2dccd0e2ef533c, type: 3}
-    isWalkable: 0
-    cost: 1
   movingEnemy: 0
   moving: 0
   targetList: []
-  mapCreated: 0
   circleArrowPrefab: {fileID: 3581929253024597637, guid: 2d1e38878fa5027489d87c4d02e8f416, type: 3}
-  phase: 0
 --- !u!114 &1297737939
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5427,25 +5416,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerTeamEffects: []
   enemyTeamEffects: []
-  playerTeamTileEffects: []
-  enemyTeamTileEffects: []
---- !u!114 &1297737940
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1297737936}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 04bcb6f59956c644ba0aafd07f555066, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  tileEffects:
-  - {fileID: 11400000, guid: 172d136be4abc0741b5b34fd7f644684, type: 2}
-  - {fileID: 11400000, guid: ec44c757fe2dc4f4284eddc7fa48ab44, type: 2}
-  - {fileID: 11400000, guid: 360567a08a87f4d4887237cb0e4f1875, type: 2}
-  tilePrefabs: []
 --- !u!1001 &1299232839
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5606,17 +5576,17 @@ MonoBehaviour:
   playerTeamList:
   - {fileID: 1924946471}
   - {fileID: 1634555521}
+  playerTeamTileEffects: []
+  enemyTeamTileEffects: []
   camera: {fileID: 960158207}
   round: 0
   phase: 0
   map: {fileID: 1297737938}
   movingEnemy: 0
-  enemyCount: 0
-  enemiesToMove: 0
+  lockPlayer: 0
   targeting: 0
   selectedCharacter: {fileID: 0}
   characterScript: {fileID: 0}
-  targets: []
 --- !u!4 &1356950530
 Transform:
   m_ObjectHideFlags: 0
@@ -6661,10 +6631,6 @@ PrefabInstance:
     - target: {fileID: 4609658174146669432, guid: f4c58aa48bf65439099745bb531160d3, type: 3}
       propertyPath: m_Name
       value: tileWall
-      objectReference: {fileID: 0}
-    - target: {fileID: 8517994062004051254, guid: f4c58aa48bf65439099745bb531160d3, type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -7833,13 +7799,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1898405302}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.6830127, y: -0.18301266, z: 0.18301266, w: 0.6830127}
+  m_LocalRotation: {x: 0.40821788, y: -0.23456968, z: 0.10938163, w: 0.8754261}
   m_LocalPosition: {x: 0, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 90, y: -30, z: 0}
+  m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1 &1900482504
 GameObject:
   m_ObjectHideFlags: 0
@@ -9399,6 +9365,87 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2a5e5fbdc43a54e90ba9d63bdc8bd079, type: 3}
+--- !u!114 &4251783165329250642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7830247837932230773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2f4405e3c5166a04fbef27de6e26baad, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4815723878242298050
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7830247837932230773}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3eef314c587c8e24aa38801bf961afa6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  turnEnded: 0
+  effects: []
+  tileEffect: {fileID: 0}
+  name: 
+  char_img: {fileID: 0}
+  health: 0
+  maxHealth:
+    value: 0
+    moddedValue: 0
+  attack:
+    value: 0
+    moddedValue: 0
+  movementSpeed:
+    value: 0
+    moddedValue: 0
+  resistence:
+    value: 0
+    moddedValue: 0
+  defense:
+    value: 0
+    moddedValue: 0
+  speed:
+    value: 0
+    moddedValue: 0
+  criticalChance:
+    value: 0
+    moddedValue: 0
+  accuracy:
+    value: 0
+    moddedValue: 0
+  actionsLeft:
+    value: 0
+    moddedValue: 0
+  totalActions:
+    value: 0
+    moddedValue: 0
+  attackReach: 1
+  defaultReach: 1
+  attackType: 
+  testEffect: {fileID: 0}
+  color: {r: 0, g: 0, b: 0, a: 0}
+  tileX: 0
+  tileY: 0
+  tileType:
+    name: 
+    tileVisualPrefab: {fileID: 0}
+    isWalkable: 0
+    cost: 1
+  tile: {fileID: 0}
+  map: {fileID: 1297737938}
+  targeting: 0
+  charSelected: 0
+  charHover: 0
+  camera: {fileID: 960158207}
+  renderer: {fileID: 6107281361265875633}
+  nameplate: {fileID: 3347623419480183641, guid: 95fbb5137e36b423497fe5e8106b2493, type: 3}
+  np2: {fileID: 0}
 --- !u!135 &5677094752945259411
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -9564,7 +9611,7 @@ PrefabInstance:
       objectReference: {fileID: 960158207}
     - target: {fileID: 7448667868949999440, guid: 4be7478ea2c6a214f9b7473d2b43f947, type: 3}
       propertyPath: health
-      value: 12
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7448667868949999440, guid: 4be7478ea2c6a214f9b7473d2b43f947, type: 3}
       propertyPath: sprite
@@ -9584,19 +9631,11 @@ PrefabInstance:
       objectReference: {fileID: 35339768}
     - target: {fileID: 7448667868949999440, guid: 4be7478ea2c6a214f9b7473d2b43f947, type: 3}
       propertyPath: maxHealth.value
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 7448667868949999440, guid: 4be7478ea2c6a214f9b7473d2b43f947, type: 3}
-      propertyPath: movementSpeed.value
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7448667868949999440, guid: 4be7478ea2c6a214f9b7473d2b43f947, type: 3}
       propertyPath: maxHealth.moddedValue
-      value: 20
-      objectReference: {fileID: 0}
-    - target: {fileID: 7448667868949999440, guid: 4be7478ea2c6a214f9b7473d2b43f947, type: 3}
-      propertyPath: movementSpeed.moddedValue
-      value: 5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7593733271122737829, guid: 4be7478ea2c6a214f9b7473d2b43f947, type: 3}
       propertyPath: Unit
@@ -9622,6 +9661,8 @@ GameObject:
   - component: {fileID: 5677094752945259411}
   - component: {fileID: 8233658884364249977}
   - component: {fileID: 6456627802691955008}
+  - component: {fileID: 4815723878242298050}
+  - component: {fileID: 4251783165329250642}
   m_Layer: 0
   m_Name: BasicEnemy2
   m_TagString: EnemyTeam
@@ -9832,16 +9873,16 @@ MonoBehaviour:
   tileEffect: {fileID: 0}
   name: Basic Enemy
   char_img: {fileID: 21300000, guid: 70357dc2ed72e4325abbd77554514278, type: 3}
-  health: 20
+  health: 10
   maxHealth:
-    value: 20
-    moddedValue: 20
+    value: 10
+    moddedValue: 10
   attack:
     value: 0
     moddedValue: 0
   movementSpeed:
-    value: 5
-    moddedValue: 5
+    value: 0
+    moddedValue: 0
   resistence:
     value: 0
     moddedValue: 0
@@ -9866,6 +9907,7 @@ MonoBehaviour:
   attackReach: 1
   defaultReach: 1
   attackType: 
+  testEffect: {fileID: 0}
   color: {r: 0, g: 0, b: 0, a: 0}
   tileX: 7
   tileY: 2
@@ -9883,7 +9925,6 @@ MonoBehaviour:
   renderer: {fileID: 6107281361265875633}
   nameplate: {fileID: 35339768}
   np2: {fileID: 35339767}
-  hasWalked: 0
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

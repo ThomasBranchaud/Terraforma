@@ -12,27 +12,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f2efde63850d607409ffe159db67317f, type: 3}
   m_Name: Fireball
   m_EditorClassIdentifier: 
-  manaCost: 5
+  manaCost: 10
   spellName: Fireball
   elementType: Fire
   spellPrefab: {fileID: 2394175536890139692, guid: ee9334e422503c840bb34dfedfb5be70, type: 3}
-  description: Apply Fire to a 3x3 square and deal {m} Fire damage to enemies caught
-    in the blast
+  description: Deal 10 fire damage to an enemy and set their tile Ablaze
   targeted: 1
-  range: 4
-  targetTiles: 1
-  targetAllies: 0
+  range: 2
+  targetTiles: 0
   target: {fileID: 0}
-  amountOfTargets: 1
-  requireDifferentTargets: 1
-  targetEnemies: 0
-  hitOwnTile: 0
-  hitSelf: 0
-  targetWalls: 1
-  AOEsize: 1
-  square: 1
-  hyperSpecificTargeting: 0
-  needSpecificTiles: 0
-  specificTiles: []
-  needSpecificTileEffects: 0
-  specificTileEffects: []

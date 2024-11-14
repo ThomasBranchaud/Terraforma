@@ -1,6 +1,6 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &2394175536890139692
+--- !u!1 &4609658174146669432
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -8,49 +8,49 @@ GameObject:
   m_PrefabAsset: {fileID: 0}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 1266781116662155157}
-  - component: {fileID: 3281928208819819768}
-  - component: {fileID: 8952784826642133216}
-  - component: {fileID: 6735173004546557610}
-  - component: {fileID: 5587089345454913673}
+  - component: {fileID: 2289765642999952694}
+  - component: {fileID: 16866604248621122}
+  - component: {fileID: 8803834143422383284}
+  - component: {fileID: 7179164943785927740}
+  - component: {fileID: 2878664337902834670}
   m_Layer: 0
-  m_Name: Fireball
+  m_Name: tileDeepWater
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &1266781116662155157
+--- !u!4 &2289765642999952694
 Transform:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2394175536890139692}
+  m_GameObject: {fileID: 4609658174146669432}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 4.91, y: 1, z: 2}
+  m_LocalPosition: {x: -1.39, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!33 &3281928208819819768
+--- !u!33 &16866604248621122
 MeshFilter:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2394175536890139692}
-  m_Mesh: {fileID: 10207, guid: 0000000000000000e000000000000000, type: 0}
---- !u!23 &8952784826642133216
+  m_GameObject: {fileID: 4609658174146669432}
+  m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!23 &8803834143422383284
 MeshRenderer:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2394175536890139692}
-  m_Enabled: 0
+  m_GameObject: {fileID: 4609658174146669432}
+  m_Enabled: 1
   m_CastShadows: 1
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
@@ -63,7 +63,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 10303, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2100000, guid: 5c84d1cb2f7bb4994badc3d39b35e010, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -85,13 +85,13 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &6735173004546557610
-SphereCollider:
+--- !u!65 &7179164943785927740
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2394175536890139692}
+  m_GameObject: {fileID: 4609658174146669432}
   m_Material: {fileID: 0}
   m_IncludeLayers:
     serializedVersion: 2
@@ -104,19 +104,27 @@ SphereCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Radius: 0.5
+  m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &5587089345454913673
+--- !u!114 &2878664337902834670
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2394175536890139692}
+  m_GameObject: {fileID: 4609658174146669432}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0489584346dfa84458888f5cf8d856db, type: 3}
+  m_Script: {fileID: 11500000, guid: db03f78879c864138af3e8170c0b6058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spread: 0
-  tileFireGrass: {fileID: 5296307935300308040, guid: 74736fe0684ee464f96b181620a6b05b, type: 3}
+  highlightMultiplier: 1.2
+  TileX: 0
+  TileY: 0
+  map: {fileID: 0}
+  isWalkable: 1
+  statsToEffect:
+  - speed
+  effectAmounts: feffffff
+  characterOnTile: {fileID: 0}
+  color: {r: 0, g: 0, b: 0, a: 0}
