@@ -38,4 +38,4 @@ MonoBehaviour:
   - tileMud
   needSpecificTileEffects: 0
   specificTileEffects: []
-  targetBreakables: 1
+  targetBreakables: 0
