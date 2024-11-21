@@ -42,6 +42,9 @@ public class BurningTileEffect : tileEffectActions
         if (tile.gameObject.name.Contains("tileGrass")){
             tile.map.swapTiles(tile, 1, true);
         }
+        else if (tile.gameObject.name.Contains("Forest")){
+            tile.map.swapTiles(tile, 1, true);
+        }
     }
 
     public override void performStepOnEffect(ClickableTile tile){

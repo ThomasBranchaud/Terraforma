@@ -96,7 +96,7 @@ public class GameControllerScript : MonoBehaviour
                     {
                         //Executes this code if the player isn't currently targeting and has no unit currently selected
                         //Checks if the object returned from the hit is a Unit on the player's team
-                        if (hit.collider.gameObject.GetComponent<Basic_Character_Class>() != null && phase == 0 && hit.collider.gameObject.tag == "PlayerTeam")
+                        if (hit.collider.gameObject.GetComponent<Basic_Character_Class>() != null && phase == 0 && hit.collider.gameObject.tag == "PlayerTeam" && hit.collider.gameObject.GetComponent<Basic_Character_Class>().turnEnded == false)
                         {
                             //Changes the selectedCharacter to the new unit, calls the selectedCharacter function inside the character, and checks if the unit has ended its turn
                             updateSelectedObject(hit.collider.gameObject);

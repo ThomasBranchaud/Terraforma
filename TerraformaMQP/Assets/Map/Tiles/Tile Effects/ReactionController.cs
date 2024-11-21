@@ -99,7 +99,7 @@ public class ReactionController : MonoBehaviour
 
             }
             else if(tile.gameObject.name.Contains("tileLightForest")){
-
+                checkLightForestReaction(tile, damageType, source, playerTeam);
             }
             else if(tile.gameObject.name.Contains("tileShallowWater")){
 
@@ -309,6 +309,38 @@ public class ReactionController : MonoBehaviour
         switch(damageType){
             case "Fire":
                 this.gameObject.GetComponent<TileMap>().swapTiles(tile, 1, true);
+                break;
+
+            case "Water":
+                newEffect = Instantiate(tileEffects[1]);
+                newEffect.createTileEffect(playerTeam, tile, newSource: source, newDuration: 3);
+                break;
+
+            case "Earth":
+                newEffect = Instantiate(tileEffects[2]);
+                newEffect.createTileEffect(playerTeam, tile, newSource: source);
+                break;
+
+            case "Air":
+                break;
+
+            case "Lightning":
+                break;
+
+            case "Ice":
+                break;
+
+            case "Plant":
+                break;
+        }
+    }
+
+    private void checkLightForestReaction(ClickableTile tile, string damageType, string source, bool playerTeam){
+        TileEffect newEffect;
+        switch(damageType){
+            case "Fire":
+                newEffect = Instantiate(tileEffects[0]);
+                newEffect.createTileEffect(playerTeam, tile, newSource: source, newDuration: 3);
                 break;
 
             case "Water":

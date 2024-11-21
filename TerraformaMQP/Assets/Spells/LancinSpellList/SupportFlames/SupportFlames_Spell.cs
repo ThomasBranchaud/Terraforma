@@ -5,19 +5,22 @@ using UnityEngine;
 public class SupportFlames_Spell : MonoBehaviour, Cast_Spell
 {
 
+    public BuffClass SupportFlamesBuff;
+
     public void castSpell(List<GameObject> targets, GameObject caster){
-        List<string> statsToEffect = new List<string>();
-        statsToEffect.Add("attack");
-        statsToEffect.Add("magic");
-        statsToEffect.Add("speed");
-        List<int> amountsToEffect = new List<int>();
-        amountsToEffect.Add(2);
-        amountsToEffect.Add(2);
-        amountsToEffect.Add(2);
         for (int i = 0; i < targets.Count; i++){
             if (targets[i].GetComponent<ClickableTile>().characterOnTile != null){
-                StatusEffect newEffect = new StatusEffect();
-                newEffect.initializeStatusEffect(3, statsToEffect, "Support Flames", amountsToEffect, targets[i].GetComponent<ClickableTile>().characterOnTile, "Support Flames", true, targets[i].GetComponent<ClickableTile>().map.gameObject);
+                GameObject characterOnTile = targets[i].GetComponent<ClickableTile>().characterOnTile;
+                if (characterOnTile.GetComponent<Basic_Character_Class>().buffs.Count > 0){
+                    for (int j = 0; j < characterOnTile.GetComponent<Basic_Character_Class>().buffs.Count; j++){
+                        if (characterOnTile.GetComponent<Basic_Character_Class>().buffs[j].name == "Support Flames"){
+                            characterOnTile.GetComponent<Basic_Character_Class>().buffs[j].duration += 1;
+                            return;
+                        }
+                    }
+                }
+                BuffClass newBuff = Instantiate(SupportFlamesBuff);
+                newBuff.createBuff(true, characterOnTile.GetComponent<Basic_Character_Class>());
             }
         }
     }
